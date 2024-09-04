@@ -8,22 +8,36 @@ date: "2024-09-04"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+```{r}a
+if (!require("pacman")) #use packman to install and load data
+  install.packages("pacman")
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+pacman::p_load(
+  bnlearn, #bayesian network
+  gRain,
+  ggplot
+  
+)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
+#use BioCManager to install other packages not in CRAN
+
+if(!requireNamespace("BiocManager", quiety = TRUE))
+  install.packages("BiocManager")
+BiocManager::install()
+BiocManager::install(c("graph,Rgraphviz"))
+
+
 ```
 
-## Including Plots
+```{r}
 
-You can also embed plots, for example:
+#define the structure of the DAG
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+dag <- model2network("[Rain][Sprinkler][Wet_Grass][Sprinlkler]")
+
+# Visualize DAG
+
+graphviz.plot(dag, main = "Dag: Rain, Sprinkler, Wet Grass")
+
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
